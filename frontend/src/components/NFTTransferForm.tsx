@@ -1,34 +1,42 @@
 import React, { useState } from 'react';
-import { Send, Image } from 'lucide-react';
+import { Image } from 'lucide-react';
+import { useReadContract } from 'wagmi'; 
+import { abi } from "../abi";
+
 
 interface NFTTransferFormProps {
   onTransfer: (from: string, to: string, tokenId: string) => Promise<void>;
-  onGetOwner: (tokenId: string) => Promise<string>;
 }
 
-export function NFTTransferForm({ onTransfer, onGetOwner }: NFTTransferFormProps) {
+export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [tokenId, setTokenId] = useState('');
   const [currentOwner, setCurrentOwner] = useState('');
 
-  const handleCheckOwner = async () => {
-    if (tokenId) {
-      try {
-        const owner = await onGetOwner(tokenId);
-        setCurrentOwner(owner);
-        setFrom(owner);
-      } catch (error) {
-        console.error('Failed to get owner:', error);
-      }
+  // 使用 useReadContract 获取合约中的 ownerOf 方法
+  const { data, isError, isLoading } = useReadContract({
+    abi,
+    address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+    functionName: 'ownerOf',
+    args: [tokenId],
+    enabled: !!tokenId, // 只有在 tokenId 存在时才执行合约调用
+  });
+
+  // 处理 "Check Owner" 按钮点击
+  const handleCheckOwner = () => {
+    if (data) {
+      setCurrentOwner(data);
+      setFrom(data); // 将拥有者地址填充到 from
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // 你可以在此执行转账操作，假设 onTransfer 是你传入的函数
       await onTransfer(from, to, tokenId);
-      // Reset form
+      // 重置表单
       setTo('');
       setTokenId('');
       setCurrentOwner('');
@@ -71,6 +79,9 @@ export function NFTTransferForm({ onTransfer, onGetOwner }: NFTTransferFormProps
           <p className="font-mono text-sm">{currentOwner}</p>
         </div>
       )}
+
+      {isLoading && <p>Loading owner...</p>}
+      {isError && <p>Error fetching owner.</p>}
 
       <div className="mb-4">
         <label className="block text-sm font-medium mb-2">To Address</label>
