@@ -5,6 +5,13 @@ import {Script} from "forge-std/Script.sol";
 import "../contracts/ERC404.sol";
 
 contract DeployScript is Script {
+    //source key.env
+// forge script contracts/Deploy.s.sol \
+//     --rpc-url $SEPOLIA_RPC_URL \
+//     --private-key $PRIVATE_KEY \
+//     --broadcast \
+//     --tc DeployScript \
+//     -vvvv
     uint8 public constant DECIMALS = 18;
     uint256 public constant UNIT = 10 ** DECIMALS;
     function run() external returns(address){
