@@ -4,11 +4,10 @@ import { Send } from 'lucide-react';
 interface TransactionFormProps {
   onTransfer: (to: string, amount: string) => Promise<void>;
   onDeposit: (id: string, amount: string) => Promise<void>;
-  onWithdraw: (amount: string) => Promise<void>;
 }
 
-export function TransactionForm({ onTransfer, onDeposit, onWithdraw }: TransactionFormProps) {
-  const [action, setAction] = useState<'transfer' | 'deposit' | 'withdraw'>('transfer');
+export function TransactionForm({ onTransfer, onDeposit}: TransactionFormProps) {
+  const [action, setAction] = useState<'transfer' | 'deposit'>('transfer');
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
   const [id, setId] = useState('');
@@ -23,9 +22,6 @@ export function TransactionForm({ onTransfer, onDeposit, onWithdraw }: Transacti
         case 'deposit':
           await onDeposit(id, amount);
           break;
-        case 'withdraw':
-          await onWithdraw(amount);
-          break;
       }
       // Reset form
       setTo('');
@@ -37,32 +33,31 @@ export function TransactionForm({ onTransfer, onDeposit, onWithdraw }: Transacti
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8 flex-1">
       <div className="flex items-center gap-3 mb-6">
         <Send className="w-5 h-5 text-blue-500" />
-        <h2 className="text-xl font-bold">Token Transaction</h2>
+        <h2 className="text-xl font-bold text-black">Token Transaction</h2>
       </div>
 
       <div className="mb-4">
         <select
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md text-black"
           value={action}
           onChange={(e) => setAction(e.target.value as any)}
         >
           <option value="transfer">Transfer</option>
           <option value="deposit">Deposit</option>
-          <option value="withdraw">Withdraw</option>
         </select>
       </div>
 
       {action === 'transfer' && (
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">To Address</label>
+          <label className="block text-sm font-medium mb-2 text-black">To Address</label>
           <input
             type="text"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md text-black"
             placeholder="0x..."
             required
           />
@@ -71,7 +66,7 @@ export function TransactionForm({ onTransfer, onDeposit, onWithdraw }: Transacti
 
       {action === 'deposit' && (
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Token ID</label>
+          <label className="block text-sm font-medium mb-2 text-black">Token ID</label>
           <input
             type="text"
             value={id}
@@ -84,17 +79,17 @@ export function TransactionForm({ onTransfer, onDeposit, onWithdraw }: Transacti
       )}
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Amount</label>
+        <label className="block text-sm font-medium mb-2 text-black">Amount</label>
         <input
           type="text"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md text-black"
           placeholder="0.0"
           required
         />
       </div>
-
+      
       <button
         type="submit"
         className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"

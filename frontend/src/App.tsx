@@ -3,6 +3,7 @@ import { TokenInfo } from "./components/TokenInfo";
 import { TransactionForm } from "./components/TransactionForm";
 import { NFTTransferForm } from "./components/NFTTransferForm";
 import { Coins } from "lucide-react";
+import { Button } from "./components/ui/button"
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   useAccount,
@@ -12,6 +13,7 @@ import {
 } from "wagmi";
 import { formatUnits, parseUnits } from "ethers";
 import { abi } from "./abi";
+import { MintToken } from "./components/MintToken";
 
 function App() {
   const { writeContract } = useWriteContract();
@@ -46,16 +48,6 @@ function App() {
     }
   };
 
-  const handleWithdraw = async (amount: string) => {
-    const amountInWei = parseUnits(amount, 18);
-    writeContract({
-      abi,
-      address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
-      functionName: "withdrawTokens",
-      args: [amountInWei],
-    });
-  };
-
   const handleDeposit = async (id: string, amount: string) => {
     const amountInWei = parseUnits(amount, 18);
     const tokenId = BigInt(id); // 确保 ID 是正确的数值类型
@@ -67,6 +59,17 @@ function App() {
     });
   };
 
+  const handleMint = async (amount: string) => {
+    const amountInWei = parseUnits(amount, 18);
+    if (!address) return;
+    writeContract({
+      abi,
+      address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+      functionName: "mint", 
+      args: [address, amountInWei],
+    });
+  };
+  
   const onNFTTransfer = async (from: string, to: string, tokenId: string) => {
     if (!from || !to || !tokenId) {
       console.error("Invalid transfer parameters");
@@ -168,46 +171,37 @@ function App() {
   console.log("erc721BalanceResult", erc721Balance);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-10 text-white">
+      <div className="max-w mx-auto">
+        <nav className="flex items-center justify-between mb-8 bg-white/10 backdrop-blur-sm rounded-lg p-4 shadow-lg">
           <div className="flex items-center gap-3">
-            <Coins className="w-8 h-8 text-blue-500" />
+            <Coins className="w-8 h-8 text-blue-400" />
             <h1 className="text-3xl font-bold">Token Dashboard</h1>
           </div>
           <ConnectButton />
+        </nav>
+
+       
+
+        <div className="opacity-95  ">
+          <TokenInfo
+            erc20Balance={erc20Balance}
+            erc721balance={erc721Balance}
+            totalSupply={totalSupply}
+            symbol={symbol}
+          />
         </div>
 
-        <TokenInfo
-          balance={balance}
-          totalSupply={totalSupply}
-          symbol={symbol}
-        />
 
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 mb-8"
-          onClick={() => {
-            if (!address) return;
-            writeContract({
-              abi,
-              address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
-              functionName: "mint",
-              args: [address, BigInt(10 * 10 ** 18)],
-            });
-          }}
-        >
-          mint Supply Token
-        </button>
 
-        <TransactionForm
-          onTransfer={handleTransfer}
-          onDeposit={handleDeposit}
-          onWithdraw={handleWithdraw}
-        />
-
-        <NFTTransferForm onTransfer={onNFTTransfer} />
+        <div className="flex justify-between gap-2">
+          
+            <MintToken onMint={handleMint} />
+            <TransactionForm onTransfer={handleTransfer} onDeposit={handleDeposit} />
+            <NFTTransferForm onTransfer={onNFTTransfer} />
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
 

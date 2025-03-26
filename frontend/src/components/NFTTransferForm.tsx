@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Image } from 'lucide-react';
 import { useReadContract } from 'wagmi'; 
 import { abi } from "../abi";
+import { Button } from './ui/button';
 
 
 interface NFTTransferFormProps {
@@ -46,14 +47,14 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8 flex-1">
       <div className="flex items-center gap-3 mb-6">
         <Image className="w-5 h-5 text-purple-500" />
-        <h2 className="text-xl font-bold">NFT Transfer</h2>
+        <h2 className="text-xl font-bold text-black">NFT Transfer</h2>
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Token ID</label>
+        <label className="block text-sm font-medium mb-2 text-black">Token ID</label>
         <div className="flex gap-2">
           <input
             type="text"
@@ -84,7 +85,7 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
       {isError && <p>Error fetching owner.</p>}
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">To Address</label>
+        <label className="block text-sm font-medium mb-2 text-black">To Address</label>
         <input
           type="text"
           value={to}
@@ -95,12 +96,12 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
         />
       </div>
 
-      <button
+      <Button
         type="submit"
         className="w-full bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 transition-colors"
       >
         Transfer NFT
-      </button>
+      </Button>
     </form>
   );
 }
