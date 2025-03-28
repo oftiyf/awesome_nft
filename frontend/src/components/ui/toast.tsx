@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { Button } from "./button";
+
 import { useToast } from "../../context/ToastContext";
 import { ExternalLink } from "lucide-react";
 
@@ -59,14 +59,14 @@ export function TxToast() {
           </a>
         )}
 
-        <Button
+        <button
           onClick={hideToast}
           disabled={toastState.status === 'pending'}
           variant={toastState.status === 'pending' ? 'outline' : 'default'}
           className="mt-2"
         >
           {buttonTexts[toastState.status]}
-        </Button>
+        </button>
       </div>
     </div>,
     document.body

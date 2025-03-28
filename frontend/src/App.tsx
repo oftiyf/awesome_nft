@@ -3,7 +3,6 @@ import { TokenInfo } from "./components/TokenInfo";
 import { TransactionForm } from "./components/TransactionForm";
 import { NFTTransferForm } from "./components/NFTTransferForm";
 import { Coins } from "lucide-react";
-import { Button } from "./components/ui/button"
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   useAccount,

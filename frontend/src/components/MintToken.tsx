@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { Coins } from "lucide-react";
 
 interface MintTokenProps {
@@ -26,12 +25,12 @@ export function MintToken({ onMint }: MintTokenProps) {
           onChange={(e) => setAmount(e.target.value)}
           className="w-full p-2 border rounded-md text-black"
         />
-        <Button 
+        <button 
           onClick={() => onMint(amount)}
-          className="w-full bg-green-500 hover:bg-green-600 text-white"
+          className="w-full bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 transition-colors"
         >
           Mint
-        </Button>
+        </button>
       </div>
     </div>
   );

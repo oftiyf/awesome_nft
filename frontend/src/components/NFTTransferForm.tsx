@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Image } from 'lucide-react';
 import { useReadContract } from 'wagmi'; 
 import { abi } from "../abi";
-import { Button } from './ui/button';
+
 
 
 interface NFTTransferFormProps {
@@ -96,12 +96,12 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
         />
       </div>
 
-      <Button
+      <button
         type="submit"
         className="w-full bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 transition-colors"
       >
         Transfer NFT
-      </Button>
+      </button>
     </form>
   );
 }
