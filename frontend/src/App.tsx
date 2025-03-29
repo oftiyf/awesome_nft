@@ -21,12 +21,13 @@ function App() {
   const [erc20Balance, setErc20Balance] = useState("0");
   const [erc721Balance, setErc721Balance] = useState("0");
   const [symbol, setSymbol] = useState("");
+  const [nftList, setNFTList ] = useState<string[]>([]);
   const [totalSupply, setTotalSupply] = useState("0");
 
   const { data: balanceData } = useBalance({
     address: address,
   });
-  const contrct_add = "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50";
+  const contrct_add = "0xDf8d73Aa213f07285A40a7631F8369c67FF65ea9";
 
   const handleTransfer = async (toAddress: string, amount: string) => {
     if (!address) return;
@@ -74,6 +75,8 @@ function App() {
     supplyResult.refetch()
   ]);
   };
+
+ 
   
   const onNFTTransfer = async (from: string, to: string, tokenId: string) => {
     if (!from || !to || !tokenId) {
@@ -93,29 +96,7 @@ function App() {
     }
   };
 
-  const onGetOwner = async (tokenId: string) => {
-    if (!tokenId) {
-      console.error("Token ID is required");
-      return "";
-    }
 
-    try {
-      // 调用合约中的 ownerOf 方法获取拥有者地址
-      const owner = useReadContract({
-        abi,
-        address: contrct_add,
-        functionName: "ownerOf",
-        args: [tokenId], // 传入 Token ID
-      });
-      console.log("Current Owner:", owner);
-      return owner;
-    } catch (error) {
-      console.error("Failed to get owner:", error);
-      return "";
-    }
-  };
-
-  console.log("User balance:", balanceData);
 
   useEffect(() => {
     if (address) {
@@ -151,6 +132,14 @@ function App() {
     functionName: "symbol",
   });
 
+  const nftlist = useReadContract({
+    abi,
+    address: contrct_add,
+    functionName: "owned",
+    args: [address ?? "0x0000000000000000000000000000000000000000"],
+  });
+
+  
   // 使用 useEffect 监听数据变化
   useEffect(() => {
     if (erc20BalanceResult?.data) {
@@ -164,6 +153,9 @@ function App() {
     }
     if (symbolResult.data) {
       setSymbol(symbolResult.data as string);
+    }
+    if (nftlist.data) {
+      setNFTList((nftlist.data as readonly string[]).slice());
     }
   }, [
     erc20BalanceResult?.data,
@@ -194,13 +186,13 @@ function App() {
             erc721balance={erc721Balance}
             totalSupply={totalSupply}
             symbol={symbol}
+            nftIds ={nftList} 
           />
         </div>
 
 
 
-        <div className="flex justify-between gap-2">
-          
+        <div className="flex justify-between gap-2 mt-6">
             <MintToken onMint={handleMint} />
             <TransactionForm onTransfer={handleTransfer} onDeposit={handleDeposit} />
             <NFTTransferForm onTransfer={onNFTTransfer} />

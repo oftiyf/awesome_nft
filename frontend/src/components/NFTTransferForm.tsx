@@ -15,21 +15,33 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
   const [tokenId, setTokenId] = useState('');
   const [currentOwner, setCurrentOwner] = useState('');
 
-  // 使用 useReadContract 获取合约中的 ownerOf 方法
-  const { data, isError, isLoading } = useReadContract({
+  const contrct_add = "0xDf8d73Aa213f07285A40a7631F8369c67FF65ea9";
+
+   // 在组件顶层调用Hook
+   const { 
+    data: ownerData, 
+    isError, 
+    isLoading, 
+    refetch // 添加refetch用于手动触发
+  } = useReadContract({
     abi,
-    address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+    address: contrct_add,
     functionName: 'ownerOf',
-    args: [tokenId],
-    enabled: !!tokenId, // 只有在 tokenId 存在时才执行合约调用
+    args: [BigInt(tokenId)],
+    enabled: false // 默认不自动执行
   });
 
-  // 处理 "Check Owner" 按钮点击
+  // 处理按钮点击
   const handleCheckOwner = () => {
-    if (data) {
-      setCurrentOwner(data);
-      setFrom(data); // 将拥有者地址填充到 from
-    }
+    console.log('Checking owner for token ID:', tokenId);
+    console.log('Contract address:', "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50");
+    console.log('Current owner:', currentOwner);
+    refetch().then(() => {
+      if (ownerData) {
+        setCurrentOwner(ownerData);
+        setFrom(ownerData);
+      }
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,14 +72,14 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
             type="text"
             value={tokenId}
             onChange={(e) => setTokenId(e.target.value)}
-            className="flex-1 p-2 border rounded-md"
+            className="flex-1 p-2 border rounded-md text-black"
             placeholder="Enter NFT Token ID"
             required
           />
           <button
             type="button"
             onClick={handleCheckOwner}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+            className="px-4 py-2 bg-yellow-400 text-black text-[16px] font-winky rounded-md hover:bg-yellow-500 transition-colors"
           >
             Check Owner
           </button>
@@ -76,8 +88,8 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
 
       {currentOwner && (
         <div className="mb-4 p-3 bg-gray-50 rounded-md">
-          <p className="text-sm text-gray-600">Current Owner:</p>
-          <p className="font-mono text-sm">{currentOwner}</p>
+          <p className="text-sm text-black">Current Owner:</p>
+          <p className="font-mono text-sm text-black">{currentOwner}</p>
         </div>
       )}
 

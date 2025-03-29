@@ -2,7 +2,11 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        winky: ['WinkySans', 'sans-serif'], // 定义简写名
+      },
+    },
   },
   plugins: [],
 };

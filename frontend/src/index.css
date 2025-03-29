@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'WinkySans';
+    src: url('@/fonts/@WinkySans-Italic-VariableFont_wght.ttf') format('woff2');
+  }
+
+  /* 使用字体 */
+body {
+    font-family: 'WinkySans', sans-serif;
+  }

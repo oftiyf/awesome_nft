@@ -1,47 +1,201 @@
-import React from 'react';
-import { CircleDollarSign, Coins, Wallet } from 'lucide-react';
+import React, { useState } from 'react';
+import { CircleDollarSign, Coins, Wallet, Hash, Copy } from 'lucide-react';
 
 interface TokenInfoProps {
   erc20Balance: string;
   erc721balance: string;
   symbol: string;
   totalSupply: string;
+  nftIds?: string[]; // 接收 NFT ID 数组
 }
 
-export function TokenInfo({ erc20Balance, erc721balance, symbol, totalSupply }: TokenInfoProps) {
+export function TokenInfo({ 
+  erc20Balance, 
+  erc721balance, 
+  symbol, 
+  totalSupply, 
+  nftIds = [] 
+}: TokenInfoProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // 分页计算
+  const totalPages = Math.ceil(nftIds.length / itemsPerPage);
+  const paginatedNFTs = nftIds.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // 复制 ID 到剪贴板
+  const copyToClipboard = (id: string) => {
+    navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  // 短格式显示 ID
+  const shortenId = (id: string) => {
+    return id.length > 8 
+      ? `${id.substring(0, 4)}...${id.substring(id.length - 4)}`
+      : id;
+  };
+
   return (
-    <div className="flex flex-col md:flex-row justify-between gap-4 mb-8 max-w mx-auto flex-1">
-      <div className="bg-white p-6 rounded-lg shadow-md text-black flex-1">
-        <div className="flex items-center gap-3 mb-2">
-          <Wallet className="w-5 h-5 text-blue-500" />
-          <h3 className="text-lg font-semibold text-black">Token Balance</h3>
+    <div className="space-y-8 max-w-6xl mx-auto text-black">
+      {/* 代币信息卡片 */}
+      <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
+        {/* Token Balance Card */}
+        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
+          <div className="flex items-center gap-3 mb-2">
+            <Wallet className="w-5 h-5 text-black" />
+            <h3 className="text-lg font-semibold">Token Balance</h3>
+          </div>
+          <p className="text-2xl font-bold">{erc20Balance} {symbol}</p>
         </div>
-        <p className="text-2xl font-bold text-black">{erc20Balance} {symbol}</p>
+
+        {/* NFT Balance Card */}
+        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
+          <div className="flex items-center gap-3 mb-2">
+            <Wallet className="w-5 h-5 text-black" />
+            <h3 className="text-lg font-semibold">NFT Balance</h3>
+          </div>
+          <p className="text-2xl font-bold">{erc721balance}</p>
+        </div>
+
+        {/* Total Supply Card */}
+        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
+          <div className="flex items-center gap-3 mb-2">
+            <Coins className="w-5 h-5 text-black" />
+            <h3 className="text-lg font-semibold">Total Supply</h3>
+          </div>
+          <p className="text-2xl font-bold">{totalSupply} {symbol}</p>
+        </div>
+
+        {/* Token Symbol Card */}
+        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
+          <div className="flex items-center gap-3 mb-2">
+            <CircleDollarSign className="w-5 h-5 text-black" />
+            <h3 className="text-lg font-semibold">Token Symbol</h3>
+          </div>
+          <p className="text-2xl font-bold">{symbol}</p>
+        </div>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md text-black flex-1">
-        <div className="flex items-center gap-3 mb-2">
-          <Wallet className="w-5 h-5 text-blue-500" />
-          <h3 className="text-lg font-semibold text-black">NFT Balance</h3>
-        </div>
-        <p className="text-2xl font-bold text-black">{erc721balance} {symbol}</p>
-      </div>
+      {/* NFT ID 列表展示 */}
+      {nftIds.length > 0 && (
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+            <h3 className="text-xl font-bold flex items-center gap-2">
+              <Hash className="w-5 h-5 text-black" />
+              NFT IDs ({nftIds.length})
+            </h3>
+            <div className="text-sm bg-gray-100 px-3 py-1 rounded">
+              Click any ID to copy
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {paginatedNFTs.map((id) => (
+              <div 
+                key={id} 
+                className="border rounded-lg p-3 hover:bg-gray-50 transition-colors cursor-pointer relative group"
+                onClick={() => copyToClipboard(id)}
+              >
+                <div className="flex items-center gap-2">
+                  <Hash className="w-4 h-4 text-black flex-shrink-0" />
+                  <span className="font-mono text-sm text-black" title={id}>
+                    {shortenId(id)}
+                  </span>
+                  <Copy className="w-3 h-3 text-black ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+                {copiedId === id && (
+                  <div className="absolute top-1 right-1 text-xs bg-black text-white px-2 py-1 rounded">
+                    Copied!
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md text-black flex-1">
-        <div className="flex items-center gap-3 mb-2">
-          <Coins className="w-5 h-5 text-green-500" />
-          <h3 className="text-lg font-semibold text-black">Total Supply</h3>
+          {/* 分页控制 */}
+          {totalPages > 1 && (
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
+              <div className="text-sm">
+                Showing {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, nftIds.length)} of {nftIds.length} NFTs
+              </div>
+              <div className="flex flex-wrap justify-center gap-2">
+                <button
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                >
+                  First
+                </button>
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                >
+                  Previous
+                </button>
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`px-3 py-1 border rounded text-sm ${
+                          currentPage === pageNum 
+                            ? 'bg-black text-white border-black' 
+                            : 'hover:bg-gray-100'
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                  {totalPages > 5 && currentPage < totalPages - 2 && (
+                    <span className="px-1">...</span>
+                  )}
+                  {totalPages > 5 && currentPage < totalPages - 2 && (
+                    <button
+                      onClick={() => setCurrentPage(totalPages)}
+                      className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+                    >
+                      {totalPages}
+                    </button>
+                  )}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                >
+                  Next
+                </button>
+                <button
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                >
+                  Last
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-        <p className="text-2xl font-bold text-black">{totalSupply} {symbol}</p>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md text-black flex-1">
-        <div className="flex items-center gap-3 mb-2">
-          <CircleDollarSign className="w-5 h-5 text-purple-500" />
-          <h3 className="text-lg font-semibold text-black">Token Symbol</h3>
-        </div>
-        <p className="text-2xl font-bold text-black">{symbol}</p>
-      </div>
+      )}
     </div>
   );
 }

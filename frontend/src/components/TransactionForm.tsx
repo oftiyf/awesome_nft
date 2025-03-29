@@ -71,7 +71,7 @@ export function TransactionForm({ onTransfer, onDeposit}: TransactionFormProps) 
             type="text"
             value={id}
             onChange={(e) => setId(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border text-black rounded-md"
             placeholder="Token ID"
             required
           />
