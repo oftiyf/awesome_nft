@@ -5,7 +5,7 @@ import {Script} from "forge-std/Script.sol";
 import "../contracts/ERC404.sol";
 
 contract DeployScript is Script {
-    //source key.env
+//     source key.env
 // forge script contracts/Deploy.s.sol \
 //     --rpc-url $SEPOLIA_RPC_URL \
 //     --private-key $PRIVATE_KEY \

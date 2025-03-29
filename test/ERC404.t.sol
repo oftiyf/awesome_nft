@@ -125,4 +125,6 @@ contract ERC404Test is Test {
             console.log("NFT #", i, ":", aliceNFTsafter[i]);
         }
     }
+    //测试一下owned
+
 }
