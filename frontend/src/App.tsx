@@ -26,22 +26,22 @@ function App() {
   const { data: balanceData } = useBalance({
     address: address,
   });
+  const contrct_add = "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50";
 
-  const handleTransfer = async (
-    toAddress: string,
-    amount: string
-  ): Promise<void> => {
-    if (!address) return; // 确保发送地址存在
+  const handleTransfer = async (toAddress: string, amount: string) => {
+    if (!address) return;
+    
     try {
-      const amountInWei = parseUnits(amount, 18); // 转换为正确的精度
-      writeContract({
+      const amountInWei = parseUnits(amount, 18);
+      await writeContract({
         abi,
-        address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
-        functionName: "erc20TransferFrom",
-        args: [address, toAddress, amountInWei],
+        address: contrct_add,
+        functionName: "transfer",
+        args: [toAddress as `0x${string}`, amountInWei],
       });
-
-      console.log(`成功转账 ${amount} 个 Token 到地址 ${toAddress}`);
+  
+      console.log(`成功转账 ${amount} 个 Token 到 ${toAddress}`);
+  
     } catch (error) {
       console.error("转账失败:", error);
     }
@@ -52,7 +52,7 @@ function App() {
     const tokenId = BigInt(id); // 确保 ID 是正确的数值类型
     writeContract({
       abi,
-      address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+      address: contrct_add,
       functionName: "depositTokens",
       args: [tokenId, amountInWei],
     });
@@ -63,10 +63,16 @@ function App() {
     if (!address) return;
     writeContract({
       abi,
-      address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+      address: contrct_add,
       functionName: "mint", 
       args: [address, amountInWei],
     });
+     // 手动刷新所有相关数据
+  await Promise.all([
+    erc20BalanceResult.refetch(),
+    erc721BalanceResult.refetch(),
+    supplyResult.refetch()
+  ]);
   };
   
   const onNFTTransfer = async (from: string, to: string, tokenId: string) => {
@@ -77,7 +83,7 @@ function App() {
     try {
       writeContract({
         abi,
-        address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+        address: contrct_add,
         functionName: "erc721TransferFrom",
         args: [from, to, tokenId], // 参数包括转出地址、接收地址和 Token ID
       });
@@ -97,7 +103,7 @@ function App() {
       // 调用合约中的 ownerOf 方法获取拥有者地址
       const owner = useReadContract({
         abi,
-        address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+        address: contrct_add,
         functionName: "ownerOf",
         args: [tokenId], // 传入 Token ID
       });
@@ -121,27 +127,27 @@ function App() {
   // 在组件顶层声明这些 hooks
   const erc20BalanceResult = useReadContract({
     abi,
-    address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+    address:contrct_add,
     functionName: "erc20BalanceOf",
     args: [address ?? "0x0000000000000000000000000000000000000000"],
   });
 
   const erc721BalanceResult = useReadContract({
     abi,
-    address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+    address:contrct_add,
     functionName: "erc721BalanceOf",
     args: [address ?? "0x0000000000000000000000000000000000000000"],
   });
 
   const supplyResult = useReadContract({
     abi,
-    address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+    address: contrct_add,
     functionName: "totalSupply",
   });
 
   const symbolResult = useReadContract({
     abi,
-    address: "0x285B1F4AEE4695AcE58307f4bdbaD41417661e50",
+    address:contrct_add,
     functionName: "symbol",
   });
 
