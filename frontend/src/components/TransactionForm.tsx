@@ -33,15 +33,16 @@ export function TransactionForm({ onTransfer, onDeposit}: TransactionFormProps) 
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8 flex-1">
+    <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-sm p-6 rounded-lg shadow-md">
       <div className="flex items-center gap-3 mb-6">
-        <Send className="w-5 h-5 text-blue-500" />
-        <h2 className="text-xl font-bold text-black">Token Transaction</h2>
+        <Send className="w-5 h-5 text-white" />
+        <h2 className="text-xl font-bold text-white">ERC20 Transfer & Deposit</h2>
       </div>
 
       <div className="mb-4">
+        <label className="block text-sm font-medium mb-2 text-white">Action Type</label>
         <select
-          className="w-full p-2 border rounded-md text-black"
+          className="w-full p-2 border border-white/20 rounded-md text-white bg-white/10"
           value={action}
           onChange={(e) => setAction(e.target.value as any)}
         >
@@ -52,12 +53,12 @@ export function TransactionForm({ onTransfer, onDeposit}: TransactionFormProps) 
 
       {action === 'transfer' && (
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2 text-black">To Address</label>
+          <label className="block text-sm font-medium mb-2 text-white">To Address</label>
           <input
             type="text"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="w-full p-2 border rounded-md text-black"
+            className="w-full p-2 border border-white/20 rounded-md text-white bg-white/10 placeholder-white/50"
             placeholder="0x..."
             required
           />
@@ -66,12 +67,12 @@ export function TransactionForm({ onTransfer, onDeposit}: TransactionFormProps) 
 
       {action === 'deposit' && (
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2 text-black">Token ID</label>
+          <label className="block text-sm font-medium mb-2 text-white">Token ID</label>
           <input
             type="text"
             value={id}
             onChange={(e) => setId(e.target.value)}
-            className="w-full p-2 border text-black rounded-md"
+            className="w-full p-2 border border-white/20 rounded-md text-white bg-white/10 placeholder-white/50"
             placeholder="Token ID"
             required
           />
@@ -79,12 +80,12 @@ export function TransactionForm({ onTransfer, onDeposit}: TransactionFormProps) 
       )}
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2 text-black">Amount</label>
+        <label className="block text-sm font-medium mb-2 text-white">Amount</label>
         <input
           type="text"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-2 border rounded-md text-black"
+          className="w-full p-2 border border-white/20 rounded-md text-white bg-white/10 placeholder-white/50"
           placeholder="0.0"
           required
         />

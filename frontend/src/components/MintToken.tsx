@@ -9,22 +9,25 @@ export function MintToken({ onMint }: MintTokenProps) {
   const [amount, setAmount] = useState('');
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-8 flex-1">
+    <form className="bg-white/20 backdrop-blur-sm p-6 rounded-lg shadow-md">
       <div className="flex items-center gap-3 mb-6">
-        <Coins className="w-5 h-5 text-green-500" />
-        <h2 className="text-xl font-bold text-black">Mint token</h2>
+        <Coins className="w-5 h-5 text-white" />
+        <h2 className="text-xl font-bold text-white">Mint Token</h2>
       </div>
 
-      <p className="text-gray-600 mb-4">Mint token to your account</p>
+      <p className="text-white/80 mb-4">Mint token to your account</p>
 
       <div className="flex flex-col gap-4">
-        <input
-          type="text"
-          placeholder="input mint amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-2 border rounded-md text-black"
-        />
+        <div>
+          <label className="block text-sm font-medium mb-2 text-white">Amount</label>
+          <input
+            type="text"
+            placeholder="Input mint amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full p-2 border border-white/20 rounded-md text-white bg-white/10 placeholder-white/50"
+          />
+        </div>
         <button 
           onClick={() => onMint(amount)}
           className="w-full bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 transition-colors"
@@ -32,6 +35,6 @@ export function MintToken({ onMint }: MintTokenProps) {
           Mint
         </button>
       </div>
-    </div>
+    </form>
   );
 }

@@ -169,36 +169,52 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-10 text-white">
-      <div className="max-w mx-auto">
-        <nav className="flex items-center justify-between mb-8 bg-white/10 backdrop-blur-sm rounded-lg p-4 shadow-lg">
-          <div className="flex items-center gap-3">
-            <Coins className="w-8 h-8 text-blue-400" />
-            <h1 className="text-3xl font-bold">Token Dashboard</h1>
-          </div>
-          <ConnectButton />
-        </nav>
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Navigation Card */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+          <nav className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Coins className="w-8 h-8 text-blue-400" />
+              <h1 className="text-3xl font-bold">Token Dashboard</h1>
+            </div>
+            <ConnectButton />
+          </nav>
+        </div>
 
-       
-
-        <div className="opacity-95  ">
+        {/* Token Info Card */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+          <h2 className="text-2xl font-semibold mb-4">Token Information</h2>
           <TokenInfo
             erc20Balance={erc20Balance}
             erc721balance={erc721Balance}
             totalSupply={totalSupply}
             symbol={symbol}
-            nftIds ={nftList} 
+            nftIds={nftList} 
           />
         </div>
 
-
-
-        <div className="flex justify-between gap-2 mt-6">
+        {/* Transaction Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Mint Token Card */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-4">Mint Tokens</h2>
             <MintToken onMint={handleMint} />
+          </div>
+
+          {/* Transfer Card */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-4">Transfer Tokens</h2>
             <TransactionForm onTransfer={handleTransfer} onDeposit={handleDeposit} />
+          </div>
+
+          {/* NFT Transfer Card */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg md:col-span-2">
+            <h2 className="text-2xl font-semibold mb-4">Transfer NFTs</h2>
             <NFTTransferForm onTransfer={onNFTTransfer} />
           </div>
         </div>
       </div>
+    </div>
   );
 }
 

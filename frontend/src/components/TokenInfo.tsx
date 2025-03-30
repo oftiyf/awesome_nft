@@ -42,55 +42,55 @@ export function TokenInfo({
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto text-black">
+    <div className="space-y-8">
       {/* 代币信息卡片 */}
-      <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Token Balance Card */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
-          <div className="flex items-center gap-3 mb-2">
-            <Wallet className="w-5 h-5 text-black" />
-            <h3 className="text-lg font-semibold">Token Balance</h3>
+        <div className="bg-white/20 backdrop-blur-sm p-4 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="flex items-center gap-2 mb-2">
+            <Wallet className="w-5 h-5 text-white" />
+            <h3 className="text-lg font-semibold text-white">Token Balance</h3>
           </div>
-          <p className="text-2xl font-bold">{erc20Balance} {symbol}</p>
+          <p className="text-xl font-bold text-white">{erc20Balance} {symbol}</p>
         </div>
 
         {/* NFT Balance Card */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
-          <div className="flex items-center gap-3 mb-2">
-            <Wallet className="w-5 h-5 text-black" />
-            <h3 className="text-lg font-semibold">NFT Balance</h3>
+        <div className="bg-white/20 backdrop-blur-sm p-4 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="flex items-center gap-2 mb-2">
+            <Wallet className="w-5 h-5 text-white" />
+            <h3 className="text-lg font-semibold text-white">NFT Balance</h3>
           </div>
-          <p className="text-2xl font-bold">{erc721balance}</p>
+          <p className="text-xl font-bold text-white">{erc721balance}</p>
         </div>
 
         {/* Total Supply Card */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
-          <div className="flex items-center gap-3 mb-2">
-            <Coins className="w-5 h-5 text-black" />
-            <h3 className="text-lg font-semibold">Total Supply</h3>
+        <div className="bg-white/20 backdrop-blur-sm p-4 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="flex items-center gap-2 mb-2">
+            <Coins className="w-5 h-5 text-white" />
+            <h3 className="text-lg font-semibold text-white">Total Supply</h3>
           </div>
-          <p className="text-2xl font-bold">{totalSupply} {symbol}</p>
+          <p className="text-xl font-bold text-white">{totalSupply} {symbol}</p>
         </div>
 
         {/* Token Symbol Card */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex-1 min-w-[250px]">
-          <div className="flex items-center gap-3 mb-2">
-            <CircleDollarSign className="w-5 h-5 text-black" />
-            <h3 className="text-lg font-semibold">Token Symbol</h3>
+        <div className="bg-white/20 backdrop-blur-sm p-4 rounded-lg shadow-md flex flex-col items-center text-center">
+          <div className="flex items-center gap-2 mb-2">
+            <CircleDollarSign className="w-5 h-5 text-white" />
+            <h3 className="text-lg font-semibold text-white">Token Symbol</h3>
           </div>
-          <p className="text-2xl font-bold">{symbol}</p>
+          <p className="text-xl font-bold text-white">{symbol}</p>
         </div>
       </div>
 
       {/* NFT ID 列表展示 */}
       {nftIds.length > 0 && (
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white/20 backdrop-blur-sm p-6 rounded-lg shadow-md">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-            <h3 className="text-xl font-bold flex items-center gap-2">
-              <Hash className="w-5 h-5 text-black" />
+            <h3 className="text-xl font-bold flex items-center gap-2 text-white">
+              <Hash className="w-5 h-5 text-white" />
               NFT IDs ({nftIds.length})
             </h3>
-            <div className="text-sm bg-gray-100 px-3 py-1 rounded">
+            <div className="text-sm bg-white/10 px-3 py-1 rounded text-white">
               Click any ID to copy
             </div>
           </div>
@@ -99,18 +99,18 @@ export function TokenInfo({
             {paginatedNFTs.map((id) => (
               <div 
                 key={id} 
-                className="border rounded-lg p-3 hover:bg-gray-50 transition-colors cursor-pointer relative group"
+                className="border border-white/20 rounded-lg p-3 hover:bg-white/10 transition-colors cursor-pointer relative group"
                 onClick={() => copyToClipboard(id)}
               >
                 <div className="flex items-center gap-2">
-                  <Hash className="w-4 h-4 text-black flex-shrink-0" />
-                  <span className="font-mono text-sm text-black" title={id}>
+                  <Hash className="w-4 h-4 text-white flex-shrink-0" />
+                  <span className="font-mono text-sm text-white" title={id}>
                     {shortenId(id)}
                   </span>
-                  <Copy className="w-3 h-3 text-black ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Copy className="w-3 h-3 text-white ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 {copiedId === id && (
-                  <div className="absolute top-1 right-1 text-xs bg-black text-white px-2 py-1 rounded">
+                  <div className="absolute top-1 right-1 text-xs bg-white/20 text-white px-2 py-1 rounded">
                     Copied!
                   </div>
                 )}
@@ -121,21 +121,21 @@ export function TokenInfo({
           {/* 分页控制 */}
           {totalPages > 1 && (
             <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
-              <div className="text-sm">
+              <div className="text-sm text-white">
                 Showing {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, nftIds.length)} of {nftIds.length} NFTs
               </div>
               <div className="flex flex-wrap justify-center gap-2">
                 <button
                   onClick={() => setCurrentPage(1)}
                   disabled={currentPage === 1}
-                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
                 >
                   First
                 </button>
                 <button
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
                 >
                   Previous
                 </button>
@@ -155,10 +155,10 @@ export function TokenInfo({
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`px-3 py-1 border rounded text-sm ${
+                        className={`px-3 py-1 border border-white/20 rounded text-sm ${
                           currentPage === pageNum 
-                            ? 'bg-black text-white border-black' 
-                            : 'hover:bg-gray-100'
+                            ? 'bg-white/20 text-white border-white/20' 
+                            : 'hover:bg-white/10 text-white'
                         }`}
                       >
                         {pageNum}
@@ -166,12 +166,12 @@ export function TokenInfo({
                     );
                   })}
                   {totalPages > 5 && currentPage < totalPages - 2 && (
-                    <span className="px-1">...</span>
+                    <span className="px-1 text-white">...</span>
                   )}
                   {totalPages > 5 && currentPage < totalPages - 2 && (
                     <button
                       onClick={() => setCurrentPage(totalPages)}
-                      className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+                      className="px-3 py-1 border border-white/20 rounded text-sm hover:bg-white/10 text-white"
                     >
                       {totalPages}
                     </button>
@@ -180,14 +180,14 @@ export function TokenInfo({
                 <button
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
                 >
                   Next
                 </button>
                 <button
                   onClick={() => setCurrentPage(totalPages)}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-1 border rounded disabled:opacity-50 text-sm hover:bg-gray-100"
+                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
                 >
                   Last
                 </button>
