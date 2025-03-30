@@ -2,12 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 方案B：字体在 src/assets/fonts/ 时 */
 @font-face {
-    font-family: 'WinkySans';
-    src: url('@/fonts/@WinkySans-Italic-VariableFont_wght.ttf') format('woff2');
-  }
-
+  font-family: 'WinkySans';
+  src: url('@/fonts/WinkySans-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+}
   /* 使用字体 */
-body {
+  body {
     font-family: 'WinkySans', sans-serif;
+    font-variation-settings: 'wght' 400;
   }

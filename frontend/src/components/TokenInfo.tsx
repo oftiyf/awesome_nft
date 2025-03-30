@@ -35,10 +35,38 @@ export function TokenInfo({
   };
 
   // 短格式显示 ID
-  const shortenId = (id: string) => {
-    return id.length > 8 
-      ? `${id.substring(0, 4)}...${id.substring(id.length - 4)}`
-      : id;
+  const shortenId = (
+    id: string | number | bigint,
+    options?: {
+      prefixLength?: number; // 开头保留长度（默认4）
+      suffixLength?: number; // 结尾保留长度（默认4）
+      separator?: string;    // 分隔符（默认"..."）
+      showFullOnHover?: boolean; // 是否在hover时显示完整ID（需要配合CSS）
+    }
+  ) => {
+    // 处理非字符串输入
+    const strId = typeof id === 'string' ? id : id.toString();
+    
+    // 默认配置
+    const {
+      prefixLength = 4,
+      suffixLength = 4,
+      separator = '...',
+      showFullOnHover = false
+    } = options || {};
+  
+    // 边界情况处理
+    if (strId.length <= prefixLength + suffixLength) {
+      return strId;
+    }
+  
+    // 生成缩短ID
+    const prefix = strId.substring(0, prefixLength);
+    const suffix = strId.substring(strId.length - suffixLength);
+    
+    return showFullOnHover 
+      ? `<span class="short-id" title="${strId}">${prefix}${separator}${suffix}</span>`
+      : `${prefix}${separator}${suffix}`;
   };
 
   return (
@@ -51,7 +79,7 @@ export function TokenInfo({
             <Wallet className="w-5 h-5 text-white" />
             <h3 className="text-lg font-semibold text-white">Token Balance</h3>
           </div>
-          <p className="text-xl font-bold text-white">{erc20Balance} {symbol}</p>
+          <p className="text-xl font-bold text-white ">{erc20Balance} {symbol}</p>
         </div>
 
         {/* NFT Balance Card */}
@@ -104,7 +132,8 @@ export function TokenInfo({
               >
                 <div className="flex items-center gap-2">
                   <Hash className="w-4 h-4 text-white flex-shrink-0" />
-                  <span className="font-mono text-sm text-white" title={id}>
+                  {/* ID文本 - 确保垂直居中 */}
+                  <span className="font-mono text-sm text-white leading-none self-center truncate max-w-[120px]">
                     {shortenId(id)}
                   </span>
                   <Copy className="w-3 h-3 text-white ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />

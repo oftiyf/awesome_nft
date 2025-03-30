@@ -5,11 +5,17 @@ interface MintTokenProps {
   onMint: (amount: string) => Promise<void>;
 }
 
+
 export function MintToken({ onMint }: MintTokenProps) {
   const [amount, setAmount] = useState('');
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // 阻止表单默认提交
+    await onMint(amount); // 调用mint函数
+  };
+  
   return (
-    <form className="bg-white/20 backdrop-blur-sm p-6 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit}  className="bg-white/20 backdrop-blur-sm p-6 rounded-lg shadow-md">
       <div className="flex items-center gap-3 mb-6">
         <Coins className="w-5 h-5 text-white" />
         <h2 className="text-xl font-bold text-white">Mint Token</h2>
@@ -29,7 +35,7 @@ export function MintToken({ onMint }: MintTokenProps) {
           />
         </div>
         <button 
-          onClick={() => onMint(amount)}
+         type="submit" 
           className="w-full bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 transition-colors"
         >
           Mint

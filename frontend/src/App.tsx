@@ -60,6 +60,7 @@ function App() {
   };
 
   const handleMint = async (amount: string) => {
+    
     const amountInWei = parseUnits(amount, 18);
     if (!address) return;
     writeContract({
