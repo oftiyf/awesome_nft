@@ -150,24 +150,8 @@ export function TokenInfo({
           {/* 分页控制 */}
           {totalPages > 1 && (
             <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
-              <div className="text-sm text-white">
-                Showing {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, nftIds.length)} of {nftIds.length} NFTs
-              </div>
               <div className="flex flex-wrap justify-center gap-2">
-                <button
-                  onClick={() => setCurrentPage(1)}
-                  disabled={currentPage === 1}
-                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
-                >
-                  First
-                </button>
-                <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
-                >
-                  Previous
-                </button>
+                
                 <div className="flex items-center gap-1">
                   {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                     let pageNum;
@@ -206,20 +190,6 @@ export function TokenInfo({
                     </button>
                   )}
                 </div>
-                <button
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
-                >
-                  Next
-                </button>
-                <button
-                  onClick={() => setCurrentPage(totalPages)}
-                  disabled={currentPage === totalPages}
-                  className="px-3 py-1 border border-white/20 rounded disabled:opacity-50 text-sm hover:bg-white/10 text-white"
-                >
-                  Last
-                </button>
               </div>
             </div>
           )}
