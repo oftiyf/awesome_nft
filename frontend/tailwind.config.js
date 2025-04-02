@@ -1,8 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'apple-gray': '#1d1d1f',
+        'apple-light': '#f5f5f7',
+        'apple-blue': '#0071e3',
+      },
+      fontFamily: {
+        'sf-pro': ['SF Pro Display', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
-};
+} 
