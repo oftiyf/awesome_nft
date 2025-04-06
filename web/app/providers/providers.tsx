@@ -9,11 +9,11 @@ import { mainnet, sepolia } from 'wagmi/chains';
 import '@rainbow-me/rainbowkit/styles.css';
 
 const config = getDefaultConfig({
-  appName: "NFT Protocol",
-  projectId: "ERC404", // 注意：在生产环境中，这应该是一个有效的 WalletConnect projectId
-  chains: [mainnet, sepolia],
-  ssr: true,
-});
+    appName: "My RainbowKit App",
+    projectId: "ERC404",
+    chains: [mainnet, sepolia],
+    ssr: true,
+  });
 
 const queryClient = new QueryClient();
 

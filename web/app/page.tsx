@@ -19,12 +19,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white">
       {/* Header - 固定在顶部 */}
-      <header className="fixed top-0 left-0 right-0 bg-white/10 backdrop-blur-sm text-white p-4 flex items-center justify-between z-50 shadow-lg">
+      <header className="fixed top-0 left-0 right-0 bg-white/10 backdrop-blur-sm text-white p-6 flex items-center justify-between z-50 shadow-lg">
         <Link
           href="https://github.com/oftiyf/awesome_nft"
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
-          <Github size={20} />
+          <Github size={40} />
           <span>GitHub</span>
         </Link>
         <button onClick={toggleLanguage} className="text-sm hover:text-gray-300 transition-colors">
