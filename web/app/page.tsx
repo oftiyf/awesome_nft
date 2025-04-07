@@ -12,7 +12,7 @@ export default function Home() {
     setLanguage((prev) => (prev === "zh" ? "en" : "zh"))
   }
 
-  const handleLearnMore = (e: React.MouseEvent) => {
+  const handleLearnMore = () => {
     console.log("Learn More button clicked")
     router.push("/main")
   }

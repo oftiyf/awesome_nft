@@ -19,7 +19,6 @@ import Link from "next/link";
 export default function Main() {
   const { writeContract } = useWriteContract()
   const { address } = useAccount()
-  const [balance, setBalance] = useState("0")
   const [erc20Balance, setErc20Balance] = useState("0")
   const [erc721Balance, setErc721Balance] = useState("0")
   const [symbol, setSymbol] = useState("")
@@ -149,10 +148,7 @@ export default function Main() {
     if (nftlist.data) {
       setNFTList((nftlist.data as readonly bigint[]).map((id) => id.toString()))
     }
-  }, [erc20BalanceResult?.data, erc721BalanceResult?.data, supplyResult.data, symbolResult.data])
-  console.log("balance", balance)
-  console.log("supply", totalSupply)
-  console.log("erc721BalanceResult", erc721Balance)
+  }, [erc20BalanceResult?.data, erc721BalanceResult?.data, supplyResult.data, symbolResult.data,nftlist.data])
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-10 text-white">

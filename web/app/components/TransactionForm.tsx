@@ -44,7 +44,7 @@ export function TransactionForm({ onTransfer, onDeposit}: TransactionFormProps) 
         <select
           className="w-full p-2 border border-white/20 rounded-md text-white bg-white/10"
           value={action}
-          onChange={(e) => setAction(e.target.value as any)}
+          onChange={(e) => setAction(e.target.value as 'transfer' | 'deposit')}
         >
           <option value="transfer">Transfer</option>
           <option value="deposit">Deposit</option>

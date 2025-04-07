@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Image } from 'lucide-react';
 import { useReadContract } from 'wagmi'; 
 import { abi } from "../abi";
 
@@ -54,7 +53,6 @@ export function NFTTransferForm({onTransfer}:NFTTransferFormProps) {
   return (
     <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-sm p-6 rounded-lg shadow-md">
       <div className="flex items-center gap-3 mb-6">
-        <Image className="w-5 h-5 text-white" />
         <h2 className="text-xl font-bold text-white">NFT Transfer</h2>
       </div>
 
