@@ -27,7 +27,7 @@ export default function Home() {
           <Github size={40} />
           <span>GitHub</span>
         </Link>
-        <button onClick={toggleLanguage} className="text-sm hover:text-gray-300 transition-colors">
+        <button onClick={toggleLanguage} className="text-m hover:text-gray-300 transition-colors">
           {language === "zh" ? "English" : "中文"}
         </button>
       </header>
